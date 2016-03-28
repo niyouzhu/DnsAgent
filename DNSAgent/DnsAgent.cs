@@ -243,18 +243,19 @@ namespace DnsAgent
                                     case RecordType.A:
                                         var aRecord = cachedMessage.AnswerRecords.First() as ARecord;
                                         if (aRecord != null)
-                                            Logger.Info("-> #{0} {2} {3}served from cache.", message.TransactionID,
+                                        {
+                                           Logger.Info("-> #{0} {2} {3} served from cache.", message.TransactionID,
                                                 cachedMessage.TransactionID, question.Name, aRecord.Address);
+                                            }
                                         else
                                         {
-                                            Logger.Info("-> #{0} {2}served from cache.", message.TransactionID,
+                                            Logger.Info("-> #{0} {2} served from cache.", message.TransactionID,
                                                 cachedMessage.TransactionID, question.Name);
                                         }
                                         break;
                                     default:
-                                        Logger.Info("-> #{0} {2} {3}served from cache.", message.TransactionID,
-                                            cachedMessage.TransactionID, question.Name,
-                                            cachedMessage.AnswerRecords.First().RecordClass);
+                                        Logger.Info("-> #{0} {2} served from cache.", message.TransactionID,
+                                            cachedMessage.TransactionID, question.Name);
                                         break;
                                 }
                                 cachedMessage.TransactionID = message.TransactionID; // Update transaction ID
