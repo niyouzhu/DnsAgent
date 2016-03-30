@@ -238,25 +238,24 @@ namespace DnsAgent
                             if (!entry.IsExpired)
                             {
                                 var cachedMessage = entry.Message;
-                                switch (question.RecordType)
+                                if (question.RecordType == RecordType.A)
                                 {
-                                    case RecordType.A:
-                                        var aRecord = cachedMessage.AnswerRecords.First() as ARecord;
-                                        if (aRecord != null)
+                                       if (cachedMessage.AdditionalRecords.Any())
+                                       {
+                                           var aRecord = cachedMessage.AnswerRecords.First() as ARecord;
+                                       if (aRecord != null)
                                         {
                                            Logger.Info("-> #{0} {2} {3} served from cache.", message.TransactionID,
                                                 cachedMessage.TransactionID, question.Name, aRecord.Address);
-                                            }
-                                        else
-                                        {
-                                            Logger.Info("-> #{0} {2} served from cache.", message.TransactionID,
-                                                cachedMessage.TransactionID, question.Name);
+                                            }      
                                         }
-                                        break;
-                                    default:
-                                        Logger.Info("-> #{0} {2} served from cache.", message.TransactionID,
-                                            cachedMessage.TransactionID, question.Name);
-                                        break;
+                                        
+                                        
+                                }
+                                else
+                                {
+                                       Logger.Info("-> #{0} {2} served from cache.", message.TransactionID,
+                                            cachedMessage.TransactionID, question.Name);  
                                 }
                                 cachedMessage.TransactionID = message.TransactionID; // Update transaction ID
                                 cachedMessage.TSigOptions = message.TSigOptions; // Update TSig options

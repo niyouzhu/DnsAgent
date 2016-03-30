@@ -18,7 +18,6 @@ namespace DnsAgent
 {
     internal class Program
     {
-        private const ConsoleColor _consoleColor = ConsoleColor.Black ;
         private const string OptionsFileName = "options.cfg";
         private const string RulesFileName = "rules.cfg";
         private static readonly List<DnsAgent> DnsAgents = new List<DnsAgent>();
@@ -53,6 +52,12 @@ namespace DnsAgent
                 Start(args);
             }
         }
+
+        private void InitializeConsoleBehaviour()
+        {
+           
+        }
+
 
         private static void Start(string[] args)
         {
