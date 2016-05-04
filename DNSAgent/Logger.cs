@@ -4,9 +4,14 @@ namespace DNSAgent
 {
     internal class Logger
     {
+        public static readonly System.Diagnostics.TraceSource _trace = new System.Diagnostics.TraceSource("DNSAgent");
         private static readonly object OutputLock = new object();
         private static string _title;
 
+        /// <summary>
+        /// Gets or sets the title.
+        /// </summary>
+        /// <value>The title.</value>
         public static string Title
         {
             get { return _title; }
@@ -46,14 +51,24 @@ namespace DNSAgent
         private static void WriteLine(ConsoleColor textColor, string format, params object[] arg)
         {
             if (!Environment.UserInteractive)
-                return;
-            lock (OutputLock)
             {
-                Console.ForegroundColor = textColor;
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine(format, arg);
-                Console.ResetColor();
+                lock (OutputLock)
+                {
+                    if (arg.Length > 0)
+                    {
+                        if (arg[0] is Exception)
+                            _trace.TraceEvent(System.Diagnostics.TraceEventType.Error, -1, format, arg);
+                    }
+                }
             }
+            else
+                lock (OutputLock)
+                {
+                    Console.ForegroundColor = textColor;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.WriteLine(format, arg);
+                    Console.ResetColor();
+                }
         }
     }
 }
