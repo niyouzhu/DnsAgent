@@ -271,8 +271,7 @@ namespace DnsAgent
                     var useCompressionMutation = Options.CompressionMutation;
 
                     // Match rules
-                    if (message.IsQuery &&
-                        (question.RecordType == RecordType.A || question.RecordType == RecordType.Aaaa))
+                    if (message.IsQuery)
                     {
                         for (var i = Rules.Count - 1; i >= 0; i--)
                         {
